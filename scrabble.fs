@@ -1,6 +1,8 @@
 open System
 open System.Diagnostics
 
+let (readln,(write:string->unit)) = (Console.In.ReadLine,Console.Out.Write)
+
 let letterPoints = function
 | 'q' | 'z' -> 10 | 'j' | 'x' -> 8
 | 'k' -> 5 | 'f' | 'h' | 'v' | 'w' | 'y' -> 4
@@ -24,13 +26,13 @@ let findHighestScoreWord wordList letters =
 let N = int(Console.In.ReadLine())
 let words = 
     [ for _ in 0 .. N - 1 do
-        let word = Console.In.ReadLine()
+        let word = readln()
         if word.Length <= 7 
         then yield (scoreWord word,getOrderedLetters word,word) ] 
     |> List.sortByDescending (fun (x,_,_) -> x)
 
-let LETTERS = Console.In.ReadLine()
+let LETTERS = readln()
 
 let sw = Stopwatch.StartNew()
-findHighestScoreWord words LETTERS |> Console.Out.Write
+findHighestScoreWord words LETTERS |> write
 sw.Elapsed |> eprintfn "%A"
